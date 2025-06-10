@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <div className="relative min-h-[70vh] sm:h-[70vh] flex items-center overflow-hidden bg-gradient-to-r from-amber-700 to-red-800">
+      <div className="relative h-[70vh] flex items-center overflow-hidden bg-gradient-to-r from-amber-700 to-red-800">
         <div 
           ref={heroRef}
           className="absolute inset-0 z-0 bg-black opacity-40"
@@ -69,15 +69,15 @@ const HomePage: React.FC = () => {
           }}
         ></div>
         
-        <div className="container mx-auto px-4 z-10 sm:px-6 lg:px-8 py-12 sm:py-0">
+        <div className="container mx-auto px-4 z-10 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
               Discover Indonesia's Rich Cultural Heritage
             </h1>
-            <p className="text-lg sm:text-xl text-white/90 mb-8">
+            <p className="text-xl text-white/90 mb-8">
               Learn, play, and experience traditional Indonesian arts and music through interactive digital experiences.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Link
                 to="/instruments"
                 className="inline-flex items-center justify-center px-6 py-3 bg-amber-500 text-white rounded-md font-medium hover:bg-amber-600 transition-colors"
@@ -98,10 +98,10 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 bg-white dark:bg-gray-900">
+      <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
               Experience the Beauty of Indonesian Arts
             </h2>
             <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <FeatureCard 
                 key={index}
@@ -124,11 +124,11 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Instruments Preview */}
-      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-800">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
+          <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Traditional Instruments
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -156,11 +156,11 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Tutorials Section */}
-      <section className="py-12 sm:py-16 bg-white dark:bg-gray-900">
+      <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
+          <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Featured Tutorials
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -188,20 +188,20 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-r from-amber-500 to-red-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-amber-500 to-red-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="max-w-xl text-center lg:text-left">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to Begin Your Cultural Journey?</h2>
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="max-w-xl mb-8 lg:mb-0">
+              <h2 className="text-3xl font-bold mb-4">Ready to Begin Your Cultural Journey?</h2>
               <p className="text-white/90 text-lg">
                 Join our community of culture enthusiasts and start exploring Indonesia's rich artistic heritage today.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               {user ? (
                 <Link
                   to="/instruments"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-white text-amber-600 rounded-md font-medium hover:bg-gray-100 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-amber-600 rounded-md font-medium hover:bg-gray-100 transition-colors"
                 >
                   Start Exploring
                   <ChevronRight className="ml-2 h-5 w-5" />
@@ -210,14 +210,14 @@ const HomePage: React.FC = () => {
                 <>
                   <Link
                     to="/auth"
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-white text-amber-600 rounded-md font-medium hover:bg-gray-100 transition-colors"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-white text-amber-600 rounded-md font-medium hover:bg-gray-100 transition-colors"
                   >
                     Sign Up Now
                     <ChevronRight className="ml-2 h-5 w-5" />
                   </Link>
                   <Link
                     to="/instruments"
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-md font-medium hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-md font-medium hover:bg-white/10 transition-colors"
                   >
                     Browse as Guest
                   </Link>
