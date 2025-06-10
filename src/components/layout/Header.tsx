@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Music, BookOpen, Users, Award, Sun, Moon } from 'lucide-react';
+import { Menu, X, Music, BookOpen, Users, Award, Sun, Moon, Search } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import SearchBar from '../ui/SearchBar';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -26,6 +28,7 @@ const Header: React.FC = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
   const navLinks = [
     { name: 'Instruments', path: '/instruments', icon: <Music className="w-5 h-5" /> },
@@ -71,8 +74,22 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
+          {/* Desktop Search */}
+          <div className="hidden lg:block">
+            <SearchBar />
+          </div>
+
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Mobile Search Button */}
+            <button
+              onClick={toggleSearch}
+              className="lg:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -119,6 +136,23 @@ const Header: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Search Overlay */}
+      {isSearchOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
+          <div className="bg-white dark:bg-gray-900 p-4">
+            <div className="flex items-center space-x-4">
+              <SearchBar autoFocus onClose={() => setIsSearchOpen(false)} />
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 shadow-lg">
@@ -141,6 +175,17 @@ const Header: React.FC = () => {
               ))}
 
               <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+                <button
+                  onClick={() => {
+                    setIsSearchOpen(true);
+                    closeMenu();
+                  }}
+                  className="w-full flex items-center p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  <Search className="w-5 h-5" />
+                  <span className="ml-2">Search</span>
+                </button>
+
                 <button
                   onClick={toggleTheme}
                   className="w-full flex items-center p-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"

@@ -4,16 +4,24 @@ interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   avatar?: string;
   role: 'user' | 'admin';
+  joinDate: string;
+  preferences: {
+    notifications: boolean;
+    newsletter: boolean;
+    privacy: 'public' | 'friends' | 'private';
+  };
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, phone: string, password: string) => Promise<void>;
   logout: () => void;
+  updateProfile: (updates: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,7 +46,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if the user is already logged in
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        localStorage.removeItem('user');
+      }
     }
     setLoading(false);
   }, []);
@@ -46,16 +59,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<void> => {
     try {
       setLoading(true);
-      // This is a mock implementation. In a real app, you'd call your API here.
-      // Simulating API call delay
+      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock validation
+      if (!email || !password) {
+        throw new Error('Email and password are required');
+      }
       
       // Mock user for demo purposes
       const mockUser: User = {
-        id: '1',
+        id: Date.now().toString(),
         name: 'John Doe',
         email,
         role: 'user',
+        joinDate: new Date().toISOString(),
+        preferences: {
+          notifications: true,
+          newsletter: true,
+          privacy: 'public'
+        }
       };
       
       setUser(mockUser);
@@ -68,19 +91,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string): Promise<void> => {
+  const register = async (name: string, email: string, phone: string, password: string): Promise<void> => {
     try {
       setLoading(true);
-      // This is a mock implementation. In a real app, you'd call your API here.
-      // Simulating API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Mock validation
+      if (!name || !email || !phone || !password) {
+        throw new Error('All fields are required');
+      }
+      
+      if (password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+      }
       
       // Mock user for demo purposes
       const mockUser: User = {
-        id: '1',
+        id: Date.now().toString(),
         name,
         email,
+        phone,
         role: 'user',
+        joinDate: new Date().toISOString(),
+        preferences: {
+          notifications: true,
+          newsletter: true,
+          privacy: 'public'
+        }
       };
       
       setUser(mockUser);
@@ -93,13 +131,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const updateProfile = async (updates: Partial<User>): Promise<void> => {
+    try {
+      if (!user) throw new Error('No user logged in');
+      
+      setLoading(true);
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      const updatedUser = { ...user, ...updates };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error('Profile update failed:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = (): void => {
     setUser(null);
     localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
